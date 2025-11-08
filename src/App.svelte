@@ -105,6 +105,7 @@
             this.isComplete = false
             this.collisionCooldown = 0
             this.melodySequence = MUSIC_LIBRARY[this.config.musicKey] ?? MUSIC_LIBRARY.twinkle ?? []
+            this.lastTrailPoint = null
         }
 
         preload() {
@@ -132,6 +133,7 @@
             this.melodyIndex = 0
             this.collisionCooldown = 0
             this.melodySequence = MUSIC_LIBRARY[this.config.musicKey] ?? MUSIC_LIBRARY.twinkle ?? []
+            this.lastTrailPoint = null
 
             this.createTrail()
             this.addParticles()
@@ -178,10 +180,13 @@
             this.ringImage?.destroy()
             this.ringImage = this.add.image(this.center.x, this.center.y, "glowDot")
             this.ringImage.setScale((this.playRadius * 2.1) / 128)
-            this.ringImage.setTint(0x1b4c8f)
-            this.ringImage.setAlpha(0.35)
+            this.ringImage.setTint(0xffffff)
+            this.ringImage.setAlpha(0.2)
             this.ringImage.setDepth(0)
 
+            this.boundary.clear()
+            this.boundary.fillStyle(0xffffff, 0.95)
+            this.boundary.fillCircle(this.center.x, this.center.y, this.playRadius - 2)
             this.boundary.lineStyle(6, 0x000000, 0.9)
             this.boundary.strokeCircle(this.center.x, this.center.y, this.playRadius)
             this.boundary.lineStyle(2, 0x000000, 0.4)
@@ -228,6 +233,7 @@
             const initialFill = Phaser.Display.Color.HSLToColor(this.hue / 360, 0.85, 0.55).color
             this.currentFillColor = initialFill
             this.ball.setFillStyle(initialFill, 1)
+            this.lastTrailPoint = { x: this.ball.x, y: this.ball.y }
             this.stampTrail()
         }
 
@@ -360,10 +366,27 @@
 
         stampTrail() {
             if (!this.trailTexture || !this.ball || !this.trailPainter) return
+            const ratio = Math.max(0, this.config.trailThickness ?? 1)
+            const color = this.currentFillColor ?? 0xffffff
             this.trailPainter.clear()
-            this.trailPainter.fillStyle(this.currentFillColor ?? 0xffffff, 1)
-            this.trailPainter.fillCircle(this.ball.x, this.ball.y, this.ballRadius)
+
+            if (ratio <= 0.02) {
+                const prev = this.lastTrailPoint ?? { x: this.ball.x, y: this.ball.y }
+                const lineWidth = Math.max(1, this.ballRadius * 0.05)
+                this.trailPainter.lineStyle(lineWidth, color, 1)
+                this.trailPainter.beginPath()
+                this.trailPainter.moveTo(prev.x, prev.y)
+                this.trailPainter.lineTo(this.ball.x, this.ball.y)
+                this.trailPainter.strokePath()
+                this.trailPainter.closePath()
+            } else {
+                const radius = Math.max(1, this.ballRadius * ratio)
+                this.trailPainter.fillStyle(color, 1)
+                this.trailPainter.fillCircle(this.ball.x, this.ball.y, radius)
+            }
+
             this.trailTexture.draw(this.trailPainter)
+            this.lastTrailPoint = { x: this.ball.x, y: this.ball.y }
         }
 
         updateBallColor(delta) {

@@ -7,6 +7,7 @@ export const DEFAULT_CONFIG = {
     initialBallRatio: 0.04, // 小球初始半径比例 (0.02 ~ 0.08)
     gravityScale: 2.4, // 重力与舞台半径比例 (1.0 ~ 4.0)
     minGravity: 980, // 重力下限, px/s² (400 ~ 1600)
+    trailThickness: 1, // 残影与实球半径的比例 (0 表示线条, 1 表示同尺寸)
     normalMultiplier: 1.02, // 正常碰撞半径放大倍率 (1.005 ~ 1.05)
     nearBoundaryMultiplier: 1.005, // 接近边缘时的放大倍率 (1.001 ~ 1.01)
     nearBoundaryRatio: 0.85, // 判定“接近边缘”的半径比例 (0.75 ~ 0.98)
@@ -50,6 +51,14 @@ export const PARAM_METADATA = [
         max: 1600,
         step: 20,
         description: "保证最小重力加速度, 建议范围 400~1600",
+    },
+    {
+        key: "trailThickness",
+        label: "残影粗细",
+        min: 0,
+        max: 1.5,
+        step: 0.01,
+        description: "残影相对于小球半径的比例, 0 为线条, 1 为实心",
     },
     {
         key: "normalMultiplier",
