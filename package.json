@@ -1,0 +1,25 @@
+{
+  "name": "jumpingball",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "@tsconfig/svelte": "^5.0.5",
+    "svelte": "^5.43.4",
+    "svelte-check": "^4.3.3",
+    "vite": "^6.4.1"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0"
+  }
+}
