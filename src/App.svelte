@@ -571,12 +571,6 @@
         color: #f6faff;
     }
 
-    .intro p {
-        margin: 0;
-        color: #cde9ff;
-        line-height: 1.6;
-    }
-
     .stage {
         width: min(70vw, 820px);
         aspect-ratio: 1 / 1;
