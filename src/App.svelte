@@ -487,10 +487,6 @@
     </aside>
 
     <section class="stage-area">
-        <header class="intro">
-            <h1>光影弹跳球</h1>
-            <p>调整参数感受不同的物理节奏、音色与视觉效果，点击画面即可激活音频并让小球演奏选定的乐曲。</p>
-        </header>
         <section id="phaser-stage" class="stage"></section>
     </section>
 </main>
