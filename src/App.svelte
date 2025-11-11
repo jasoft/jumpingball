@@ -64,6 +64,7 @@
         if (key === "minGravity") return `${Math.round(value)} px/s²`
         if (key === "beatLength" || key === "sustainExtra") return `${value.toFixed(2)} s`
         if (key === "noteGain") return value.toFixed(2)
+        if (key === "bounceMultiplier") return `${value.toFixed(2)}x`
         return value.toFixed(3)
     }
 
@@ -327,7 +328,8 @@
             const dot = this.velocity.x * normalX + this.velocity.y * normalY
             this.velocity.x -= 2 * dot * normalX
             this.velocity.y -= 2 * dot * normalY
-            this.velocity.scale(1.01)
+            const bounceMultiplier = Phaser.Math.Clamp(this.config.bounceMultiplier ?? 1, 0.2, 2)
+            this.velocity.scale(bounceMultiplier)
         }
 
         flashBoundary() {

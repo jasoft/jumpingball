@@ -7,15 +7,16 @@ export const DEFAULT_CONFIG = {
     initialBallRatio: 0.04, // 小球初始半径比例 (0.02 ~ 0.08)
     gravityScale: 2.4, // 重力与舞台半径比例 (1.0 ~ 4.0)
     minGravity: 980, // 重力下限, px/s² (400 ~ 1600)
+    bounceMultiplier: 2, // 反弹时的速度倍率
     trailThickness: 1, // 残影与实球半径的比例 (0 表示线条, 1 表示同尺寸)
-    normalMultiplier: 1.02, // 正常碰撞半径放大倍率 (1.005 ~ 1.05)
+    normalMultiplier: 1.025, // 正常碰撞半径放大倍率 (1.005 ~ 1.05)
     nearBoundaryMultiplier: 1.005, // 接近边缘时的放大倍率 (1.001 ~ 1.01)
     nearBoundaryRatio: 0.85, // 判定“接近边缘”的半径比例 (0.75 ~ 0.98)
     placementPadding: 0.5, // 与边界的最小距离, px (0.1 ~ 2)
-    collisionCooldown: 140, // 两次有效碰撞的冷却, ms (60 ~ 300)
+    collisionCooldown: 10, // 两次有效碰撞的冷却, ms (60 ~ 300)
     beatLength: 0.45, // 音符基准节拍时长, s (0.25 ~ 0.7)
-    sustainExtra: 0.8, // 额外延音时长, s (0.2 ~ 1.5)
-    noteGain: 0.25, // 单个音符的音量 (0.05 ~ 0.4)
+    sustainExtra: 1.2, // 额外延音时长, s (0.2 ~ 1.5)
+    noteGain: 0.5, // 单个音符的音量 (0.05 ~ 0.4)
     musicKey: "twinkle", // 默认乐曲
 }
 
@@ -53,6 +54,14 @@ export const PARAM_METADATA = [
         description: "保证最小重力加速度, 建议范围 400~1600",
     },
     {
+        key: "bounceMultiplier",
+        label: "弹力倍率",
+        min: 0.8,
+        max: 10,
+        step: 0.05,
+        description: "碰撞后速度增减, 1 为等速, 大于 1 更有弹力 (0.8~10)",
+    },
+    {
         key: "trailThickness",
         label: "残影粗细",
         min: 0,
@@ -87,10 +96,10 @@ export const PARAM_METADATA = [
     {
         key: "collisionCooldown",
         label: "碰撞冷却 (ms)",
-        min: 60,
+        min: 10,
         max: 300,
         step: 10,
-        description: "限制连续碰撞触发频率 (60~300 ms)",
+        description: "限制连续碰撞触发频率 (10~300 ms)",
     },
     {
         key: "beatLength",
